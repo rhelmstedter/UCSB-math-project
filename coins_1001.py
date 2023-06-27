@@ -1,8 +1,9 @@
 """
 Start with 1,001 pennies lined up on a table. First, replace every other coin with a
-nickel. Next, replace every third coin with a dime. Finally, replace
-every fourth coin with a quarter. How much money is on the table now?
+nickel. Next, replace every third coin with a dime. Finally, replace every fourth coin
+with a quarter. How much money is on the table now?
 """
+from collections import Counter
 from decimal import Decimal
 
 QUARTER = Decimal("0.25")
@@ -22,4 +23,8 @@ for coin in range(1, 1002):
         coin = PENNY
     coins.append(coin)
 
-print(sum(coins))
+print("Coin | Count")
+print("------------")
+for coin, count in Counter(coins).items():
+    print(f"{coin} | {count:}")
+print(f"\nTotal: ${sum(coins)}")
