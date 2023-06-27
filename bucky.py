@@ -11,11 +11,8 @@ combs = []
 for tds in range(MAX_TDS, 0, -3):
     td_points = tds * 7
     remaing_points = TOTAL_SCORE - td_points
-    if remaing_points % 3 == 0:
-        fgs = remaing_points // 3
-        combs.append((tds, fgs))
-    else:
-        continue
+    fgs = remaing_points // 3
+    combs.append((tds, fgs))
 
 print("There are four possible ways to score 83 points with TDs and FGs.")
 print("TDs | FGs | Total Pushups")
