@@ -11,18 +11,24 @@ DIME = Decimal("0.10")
 NICKEL = Decimal("0.05")
 PENNY = Decimal("0.01")
 
-coins = []
-for coin in range(1, 1002):
-    if coin % 4 == 0:
-        coin = QUARTER
-    elif coin % 3 == 0:
-        coin = DIME
-    elif coin % 2 == 0:
-        coin = NICKEL
-    else:
-        coin = PENNY
-    coins.append(coin)
 
+def calc_coins() -> list[Decimal]:
+    """Returns a list of all the coins on the table."""
+    coins = []
+    for coin in range(1, 1002):
+        if coin % 4 == 0:
+            coin = QUARTER
+        elif coin % 3 == 0:
+            coin = DIME
+        elif coin % 2 == 0:
+            coin = NICKEL
+        else:
+            coin = PENNY
+        coins.append(coin)
+    return coins
+
+
+coins = calc_coins()
 print("Coin | Count")
 print("------------")
 for coin, count in Counter(coins).items():
