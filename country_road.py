@@ -9,20 +9,33 @@ from typing import Iterable
 from rich import print
 from more_itertools import subslices
 
-
-def calc_distances(locations: Iterable) -> int:
-    return tuple(y - x for x, y in it.pairwise(locations)) + (27 - locations[-1],)
-
-
-possibile_locations = [
-    (c, calc_distances(c))
-    for c in it.combinations(range(0, 27), 6)
-]
+ROAD_LENGTH = 27
+COTTAGES = 6
 
 
-solutions = []
-for locations, d in possibile_locations:
-    if len(set(sum(s) for s in subslices(d + d) if sum(s) <= 13)) == 13:
-        solutions.append((locations, d))
+def _calc_cottage_distances(locations: Iterable) -> tuple[int]:
+    pairwise_distances = tuple(y - x for x, y in it.pairwise(locations))
+    last_to_first_distance = (ROAD_LENGTH - locations[-1],)
+    return pairwise_distances + last_to_first_distance
 
-print(set(solutions))
+
+def _contains_integral_values_to_13(distances: tuple) -> bool:
+    integral_distances = set(
+        sum(s) % ROAD_LENGTH for s in subslices(distances + distances)
+    )
+    return len(integral_distances) == ROAD_LENGTH
+
+
+if __name__ == "__main__":
+    possibile_locations = (
+        _calc_cottage_distances(c)
+        for c in it.combinations(range(0, ROAD_LENGTH), COTTAGES)
+        if sum(_calc_cottage_distances(c)) == ROAD_LENGTH
+    )
+    solutions = []
+    seen = []
+    for distances in possibile_locations:
+        if _contains_integral_values_to_13(distances) and sorted(distances) not in seen:
+            solutions.append(distances)
+            seen.append(sorted(distances))
+    print(solutions)
